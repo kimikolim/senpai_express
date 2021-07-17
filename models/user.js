@@ -1,8 +1,6 @@
 const mongoose = require('mongoose')
+const { EnumUserGender } = require('./choices')
 
-const GenderMale = 'm'
-const GenderFemale = 'f'
-const EnumUserGender = [GenderMale, GenderFemale]
 
 const userSchema = new mongoose.Schema({
     name: {type:String, required: true},
@@ -12,7 +10,8 @@ const userSchema = new mongoose.Schema({
     mobile: {type:String, required: true},
     gender: {type:String, required: true, enum: EnumUserGender},
     age: {type: Number, required: true, min: 0},
-    selectedFile: String,
+    skills: [{ type: mongoose.Schema.Types.ObjectId, ref: 'SkillsModel' }],
+    selectedFile: String, //convert image into string using base64
 }, {timestamp:true})
 
 const UserModel = mongoose.model('UserModel', userSchema)

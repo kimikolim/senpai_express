@@ -1,22 +1,13 @@
 const mongoose = require("mongoose");
+const { EnumMainCategories, EnumSubCategories } = require('./choices')
 
-//4 main categories
-const FitnessCategory = "Fitness";
-const AcademicCategory = "Academia";
-const ArtsCategory = "Arts & crafts";
-const CookCategory = "Cooking & Baking";
-const EnumMainCategories = [
-	FitnessCategory,
-	AcademicCategory,
-	ArtsCategory,
-	CookCategory,
-];
 
 //Sub categories
 
 const skillSchema = new mongoose.Schema({
-	mainCategory: { type: String, unique: true, enum: EnumMainCategories },
+	mainCategory: { type: String, enum: EnumMainCategories },
 	subCategory: { type: String, enum: EnumSubCategories },
+	user: { type: mongoose.Schema.Types.ObjectId, ref: 'UserModel' },
 	tags: [String],
 });
 
