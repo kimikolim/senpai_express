@@ -3,7 +3,20 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT || 8000
 const mongoose = require('mongoose')
+const cors = require('cors')
+const senpaiRouter = require('./routers/senpaiRouter')
+const userRouter = require('./routers/userRouter')
 
+// =======================================
+//              MIDDLEWARE
+// =======================================
+
+app.use(cors())
+app.use(express.json())
+
+app.use('/api/v1/senpai', senpaiRouter)
+app.use('/api/v1/user', userRouter)
+app.use('*', (req, res) => res.status(404).json({ error: "not found" }))
 
 // =======================================
 //              LISTENER
