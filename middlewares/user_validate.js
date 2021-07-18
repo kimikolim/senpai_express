@@ -9,7 +9,7 @@ module.exports = {
     }),
 
     registerValidate: joi.object({
-        name: joi.string().min(3).max(30).required(),
+        name: joi.string().min(3).max(40).required(),
         email: joi.string().email().required(),
         mobile: joiPhone.string().phoneNumber().required(),
         password: joi.string().min(8).required(),
