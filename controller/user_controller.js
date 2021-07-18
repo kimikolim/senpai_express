@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const { loginValidate, registerValidate } = require('../middlewares/user_validate')
 const bcrypt = require('bcrypt')
+const { UserModel } = require('../models/user')
 
 module.exports = {
     register: async (req, res) => {
@@ -23,21 +24,73 @@ module.exports = {
         try {
             hash = await bcrypt.hash(validatedValue.password, 10)
         } catch (error) {
+            console.log(error);
+            return res.status(500).json()
+        }
+        if (hash === '') {
             return res.status(500).json()
         }
 
         //verify duplicate user
+        let user = null
+        try {
+            user = await UserModel.findOne({ email: validatedValue.email })
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json()
+        }
+        if (user) {
+            return res.status(409).json({ message: "Email already exists." })
+        }
 
         //create user account
+        UserModel.create({
+            name: validatedValue.name,
+            email: validatedValue.email,
+            hash: hash,
+            mobile: validatedValue.mobile,
+         })
+         .then (response => {
+             return res.json(response._id)
+         })
+         .catch (err => {
+             return res.status(500).json(err)
+         })
     },
-    login: (req, res) => {
 
-        //validation email & pw
+
+    login: async (req, res) => {
+
+        //validation email & pw provided
+        const validatedResult = loginValidate.validate(req.body)
+        if(validatedResult.error) {
+            return res.status(400).json({ message: validatedResult.error })
+        }
+
+        const validatedValue = validatedResult.value
 
         //verify user email exists
-
+        let user = null
+        try {
+            user = await UserModel.findOne({email: validatedValue.email})
+        } catch (err) {
+            return res.status(500).json(err)
+        }
+        if (!user) {
+            return res.status(400).json({ success: false, message: 'Given email is incorrect' })
+        }
         //verify correct password
+        let isPasswordCorrect = false
+        try {
+            isPasswordCorrect = await bcrypt.compare(validatedValue.password, user.hash)
+        } catch(err) {
+            return res.status(500).json(err)
+        }
+        if (!isPasswordCorrect) {
+            return res.status(400).json({ success: false, message: 'Given password is incorrect' })
+        }
 
         //JWT expiry
+
     },
 }
