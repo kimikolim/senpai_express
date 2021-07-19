@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const senpaiRouter = require('./routers/senpaiRouter')
 const userRouter = require('./routers/userRouter')
+const accountRouter = require('./routers/accountRouter')
 
 // =======================================
 //              MIDDLEWARE
@@ -16,6 +17,7 @@ app.use(express.json())
 
 app.use('/api/v1', userRouter)
 app.use('/api/v1', senpaiRouter)
+app.use('/api/v1/dashboard', accountRouter)
 app.use('*', (req, res) => res.status(404).json({ error: "not found" }))
 
 // =======================================
