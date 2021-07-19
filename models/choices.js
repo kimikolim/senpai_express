@@ -3,16 +3,7 @@ const GenderFemale = 'f'
 const EnumUserGender = [GenderMale, GenderFemale]
 
 //4 main categories
-const FitnessCategory = "Fitness";
-const AcademicCategory = "Academia";
-const ArtsCategory = "Arts & crafts";
-const CookCategory = "Cooking & Baking";
-const EnumMainCategories = [
-	FitnessCategory,
-	AcademicCategory,
-	ArtsCategory,
-	CookCategory,
-];
+const EnumMainCategories = ['fitness', 'academic', 'arts & crafts', 'cooking & baking'];
 
 //sub categories
 //Fitness => gym, yoga, sports

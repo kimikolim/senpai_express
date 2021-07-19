@@ -6,7 +6,7 @@ const { UserModel } = require('../models/user')
 module.exports = {
     register: async (req, res) => {
 
-        //validation user_validate
+        //validation user_validate.js
         const validatedResult = registerValidate.validate(req.body)
         if(validatedResult.error) {
             return res.status(400).json({ message: validatedResult.error })
@@ -44,12 +44,14 @@ module.exports = {
         }
 
         //create user account
-        UserModel.create({
+        let createUser = {
             name: validatedValue.name,
             email: validatedValue.email,
             hash: hash,
             mobile: validatedValue.mobile,
-         })
+        }
+
+        UserModel.create(createUser)
          .then (response => {
              return res.json(response._id)
          })

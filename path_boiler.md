@@ -18,7 +18,7 @@
 |  Senpai Profile Page  |        `/profile/:userID`       |       GET        |
 |  Login Page  |        `/login`       |       POST        |
 |  Sign Up Page  |        `/register`       |       POST        |
-|  User Dashboard  |        `/dashboard`       |       GET        |
+|  User Dashboard  |        `/dashboard/:userID`       |       GET        |
 |  User update details  |        `/dashboard`       |       PATCH        |
 |  User delete account  |        `/dashboard`       |       DELETE        |
 |  Senpai add skill  |        `/dashboard`       |       POST        |
