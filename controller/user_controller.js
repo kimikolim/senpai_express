@@ -49,6 +49,8 @@ module.exports = {
             email: validatedValue.email,
             hash: hash,
             mobile: validatedValue.mobile,
+            age: "",
+            gender: "",
         }
 
         UserModel.create(createUser)
