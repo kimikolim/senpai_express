@@ -1,6 +1,6 @@
 //Gender
-const GenderMale = 'm'
-const GenderFemale = 'f'
+const GenderMale = 'M'
+const GenderFemale = 'F'
 const EnumUserGender = [GenderMale, GenderFemale]
 
 //4 main categories
@@ -18,7 +18,13 @@ const cookSub = ['cuisine', 'baking', 'mixology']
 
 const EnumSubCategories = [ ...fitnessSub, ...academicSub, ...artSub, ...cookSub, 'others']
 
+//senpai 1
 
+//fitness => gym, sports => HIIT, basketball, circuit
+
+//senpai 2
+
+//fitness => gym => bodybuilding, crossfit
 module.exports = {
     EnumUserGender: EnumUserGender,
     EnumMainCategories: EnumMainCategories,
