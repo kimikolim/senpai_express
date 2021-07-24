@@ -2,8 +2,7 @@ const mongoose = require('mongoose')
 const _ = require('lodash')
 const { UserModel } = require('../models/user')
 const { SkillsModel } = require('../models/senpaiSkills')
-const { registerValidate } = require('../middlewares/user_validate')
-const { senpaiSkillValidate } = require('../middlewares/senpai_validate')
+const { registerValidate, senpaiSkillValidate } = require('../middlewares/user_validate')
 
 module.exports = {
     userAccount: (req, res) => {
@@ -33,12 +32,12 @@ module.exports = {
         }
         //validate user update details - AGE EMAIL PHONE NUMBER ETC?
         //How to append more fields into existing data
-        const validatedResult = registerValidate.validate(req.body)
-        if (validatedResult.error) {
-            return res.status(400).json(validatedResult.error)
-        }
+        // const validatedResult = registerValidate.validate(req.body)
+        // if (validatedResult.error) {
+        //     return res.status(400).json(validatedResult.error)
+        // }
 
-        const validatedValue = validatedResult.value
+        // const validatedValue = validatedResult.value
 
         let user = null
         //Check User account exists
@@ -50,11 +49,12 @@ module.exports = {
         if (!user) {
             return res.status(404).json({ message: "Account does not exist." })
         }
-
+        console.log(req.body);
         //Update user profile eg. gender and age
         try {
-            await user.updateOne(validatedValue)
+            await UserModel.updateOne({ _id: req.params.userID }, { $set: {gender: req.body.gender, age: req.body.age} })
         } catch (error) {
+            console.log(error);
             return res.status(500).json()
         }
 
@@ -111,27 +111,29 @@ module.exports = {
         const validatedValue = validatedResult.value
 
         let { tags } = req.body
-        let arrTags = _.split([tags], ',')
+        let arrTags = _.split(tags, ',')
 
         let createSkill = {
             mainCategory: validatedValue.mainCategory,
             subCategory: validatedValue.subCategory,
+            user: req.params.userID,
             tags: arrTags,
             comments: ""
         }
 
         SkillsModel.create(createSkill)
          .then (response => {
-             return res.json(response.user)
+             return res.json(response)
          })
          .catch (err => {
+             console.log(err);
              return res.status(500).json(err)
          })
 
 
     },
-    
-    editSkill: (req, res) => {
+
+    editSkill: async (req, res) => {
            //validate valid mongo objectID
            if (!mongoose.Types.ObjectId.isValid(req.params.userID)) {
             return res.status(400).json({ message: "Invalid userID." })
@@ -166,7 +168,7 @@ module.exports = {
         return res.json()
     },
 
-    deleteSkill: (req, res) => {
+    deleteSkill: async (req, res) => {
         let user = null
         //Check User account exists
         try {

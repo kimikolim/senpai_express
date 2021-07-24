@@ -5,8 +5,11 @@ const { UserModel } = require('../models/user')
 module.exports = {
     //Senpai list page
     senpaiList: async (req, res) => {
-        //validate req.query
-        const validatedResult = senpaiListValidate.validate(req.query)
+        //validate req.params => mainCategory
+        //validate req.query => subCategory, experience, rates, tags
+        const query = {...req.query, ...req.params}
+
+        const validatedResult = senpaiListValidate.validate(query)
         if(validatedResult.error) {
             return res.status(400).json(validatedResult.error)
         }
@@ -22,13 +25,24 @@ module.exports = {
         }
         //filter database
         //keywords? tags?
+        //mongo search by array
+
         let filter = {}
-        if (validatedValue.mainCategory) {
-            filter.mainCategory = validatedValue.mainCategory
-        }
-        if (validatedValue.subCategory) {
-            filter.subCategory = validatedValue.subCategory
-        }
+        // if (validatedValue.mainCategory) {
+        //     filter.mainCategory = validatedValue.mainCategory
+        // }
+        // if (validatedValue.subCategory) {
+        //     filter.subCategory = validatedValue.subCategory
+        // }
+        for (const property in validatedValue) {
+            if (validatedValue[property]) {
+                    filter[property] = validatedValue[property]
+                }
+          }
+
+        //   console.log(filter);
+
+
 
         //total count of filtered result
         let totalSenpai = 0

@@ -9,8 +9,8 @@ const userSchema = new mongoose.Schema({
     mobile: {type:String, required: true},
     gender: {type:String, enum: EnumUserGender},
     age: {type: Number, min: 0},
-    skills: [{ type: mongoose.Schema.Types.ObjectId, ref: 'SkillsModel' }],
-    selectedFile: String, //convert image into string using base64
+    // skills: [{ type: mongoose.Schema.Types.ObjectId, ref: 'SkillsModel' }],
+    // selectedFile: String, //convert image into string using base64
 }, {timestamp:true})
 
 const UserModel = mongoose.model('UserModel', userSchema)

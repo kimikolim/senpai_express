@@ -4,7 +4,7 @@ const GenderFemale = 'f'
 const EnumUserGender = [GenderMale, GenderFemale]
 
 //4 main categories
-const EnumMainCategories = ['fitness', 'academic', 'arts & crafts', 'cooking & baking'];
+const EnumMainCategories = ['fitness', 'academic', 'arts&crafts', 'cooking&baking'];
 
 //sub categories
 //Fitness => gym, yoga, sports
@@ -16,7 +16,7 @@ const artSub = ['instruments', 'sing/dance', 'design & crafts']
 //Cook => cuisine, baking, mixology
 const cookSub = ['cuisine', 'baking', 'mixology']
 
-const EnumSubCategories = [ fitnessSub, academicSub, artSub, cookSub, 'others']
+const EnumSubCategories = [ ...fitnessSub, ...academicSub, ...artSub, ...cookSub, 'others']
 
 
 module.exports = {

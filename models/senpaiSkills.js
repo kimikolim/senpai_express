@@ -9,6 +9,8 @@ const skillSchema = new mongoose.Schema({
 	subCategory: { type: String, enum: EnumSubCategories },
 	user: { type: mongoose.Schema.Types.ObjectId, ref: 'UserModel' },
 	tags: {type: [String], required: true},
+	rate: {type: Number, required: true},
+	experience: {type: Number, required: true},
 	comments: String,
 });
 

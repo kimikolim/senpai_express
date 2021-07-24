@@ -14,8 +14,9 @@ const accountRouter = require('./routers/accountRouter')
 
 app.use(cors())
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
-app.use('/api/v1', userRouter)
+app.use('/api/v1/user', userRouter)
 app.use('/api/v1', senpaiRouter)
 app.use('/api/v1/dashboard', accountRouter)
 app.use('*', (req, res) => res.status(404).json({ error: "not found" }))
