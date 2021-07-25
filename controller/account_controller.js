@@ -51,8 +51,21 @@ module.exports = {
         }
         console.log(req.body);
         //Update user profile eg. gender and age
+        let { name, email, mobile, gender, age } = req.body
         try {
-            await UserModel.updateOne({ _id: req.params.userID }, { $set: {gender: req.body.gender, age: req.body.age} })
+            await UserModel.updateOne(
+                {
+                    _id: req.params.userID
+                },
+                {
+                    $set: {
+                        name: name,
+                        email: email,
+                        mobile: mobile,
+                        gender: gender,
+                        age: age,
+                    }
+                }, { new: true, omitUndefined: true })
         } catch (error) {
             console.log(error);
             return res.status(500).json()
