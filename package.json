@@ -25,6 +25,7 @@
     "express": "^4.17.1",
     "joi": "^17.4.0",
     "joi-phone-number": "^5.0.1",
+    "lodash": "^4.17.21",
     "mongodb": "^3.6.10",
     "mongoose": "^5.13.2",
     "nodemon": "^2.0.9"
