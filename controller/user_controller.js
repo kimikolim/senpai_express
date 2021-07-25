@@ -94,6 +94,8 @@ module.exports = {
             return res.status(400).json({ success: false, message: 'Given password is incorrect' })
         }
 
+        return res.json({ success: true, userID: user._id })
+
         //JWT expiry
 
     },

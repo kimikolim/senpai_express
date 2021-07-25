@@ -3,13 +3,13 @@ const router = express.Router()
 const accountController = require('../controller/account_controller')
 
 //Individual user dashboard
-router.get('/:userID', accountController.userAccount)
+router.get('/:userID/profile', accountController.userAccount)
 //User update details
 router.patch('/:userID/profile', accountController.userUpdate)
 //User delete account
-router.delete('/:userID', accountController.deleteAccount)
+router.delete('/:userID/profile', accountController.deleteAccount)
 //Show exisiting Senpai skills
-router.get('/:userID', accountController.showSkill)
+router.get('/:userID/skill', accountController.showSkill)
 //Senpai add skill
 router.post('/:userID/skill', accountController.addSkill)
 //Senpai edit skill
