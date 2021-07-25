@@ -81,7 +81,7 @@ module.exports = {
             return res.status(500).json(err)
         }
         if (!user) {
-            return res.status(400).json({ success: false, message: 'Given email is incorrect' })
+            return res.status(200).json({ success: true, message: 'Given email is incorrect' })
         }
         //verify correct password
         let isPasswordCorrect = false
@@ -91,10 +91,10 @@ module.exports = {
             return res.status(500).json(err)
         }
         if (!isPasswordCorrect) {
-            return res.status(400).json({ success: false, message: 'Given password is incorrect' })
+            return res.status(200).json({ success: true, message: 'Given password is incorrect' })
         }
 
-        return res.json({ success: true, userID: user._id })
+        return res.json({ success: true, userID: user._id, message: "Login Successfully!", name: user.name })
 
         //JWT expiry
 
