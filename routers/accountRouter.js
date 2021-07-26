@@ -8,7 +8,7 @@ router.get('/:userID/profile', accountController.userAccount)
 router.patch('/:userID/profile', accountController.userUpdate)
 //User delete account
 router.delete('/:userID/profile', accountController.deleteAccount)
-//Show exisiting Senpai skills
+//Show exisiting Senpai dashboard including skills
 router.get('/:userID/skill', accountController.showSkill)
 //Senpai add skill
 router.post('/:userID/skill', accountController.addSkill)
