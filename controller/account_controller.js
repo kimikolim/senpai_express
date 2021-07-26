@@ -101,8 +101,8 @@ module.exports = {
             return res.status(400).json({ message: "Invalid userID." })
         }
         //validate
-        // UserModel.find({ _id: req.params.userID }).populate('skills')
-        SkillsModel.find({ user: req.params.userID }).populate('user', 'email name mobile gender age')
+        UserModel.find({ _id: req.params.userID }).populate('skills').select('-hash')
+        // SkillsModel.find({ user: req.params.userID }).populate('user', 'email name mobile gender age')
         .then(response => {
             if(!response){
                 return res.status(404).json()
