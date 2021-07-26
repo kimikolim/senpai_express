@@ -23,7 +23,9 @@ module.exports = {
     senpaiSkillValidate: joi.object({
         mainCategory: joi.string().valid(...EnumMainCategories).required(),
         subCategory: joi.string().valid(...EnumSubCategories).required(),
-        tags: joi.string().max(30).required(),
+        rate: joi.number().min(0).required(),
+        experience: joi.number().min(0).required(),
+        tags: joi.string().max(80).required(),
         comments: joi.string().max(200).allow("", null)
     })
 

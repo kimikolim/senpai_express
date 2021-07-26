@@ -101,7 +101,8 @@ module.exports = {
             return res.status(400).json({ message: "Invalid userID." })
         }
         //validate
-        SkillsModel.find({ user: req.params.userID })
+        // UserModel.find({ _id: req.params.userID }).populate('skills')
+        SkillsModel.find({ user: req.params.userID }).populate('user', 'email name mobile gender age')
         .then(response => {
             if(!response){
                 return res.status(404).json()
@@ -131,11 +132,18 @@ module.exports = {
             subCategory: validatedValue.subCategory,
             user: req.params.userID,
             tags: arrTags,
-            comments: ""
+            comments: validatedValue.comments
         }
 
         SkillsModel.create(createSkill)
-         .then (response => {
+         .then (async (response) => {
+             //validate if user exists
+             const updateResult = await UserModel.findOneAndUpdate(
+                { _id: response.user },
+                { $push : { skills : response._id }},
+                { returnDocument: true }
+                )
+                console.log(updateResult);
              return res.json(response)
          })
          .catch (err => {

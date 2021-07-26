@@ -7,11 +7,14 @@ const { EnumMainCategories, EnumSubCategories } = require('./choices')
 const skillSchema = new mongoose.Schema({
 	mainCategory: { type: String, enum: EnumMainCategories },
 	subCategory: { type: String, enum: EnumSubCategories },
-	user: { type: mongoose.Schema.Types.ObjectId, ref: 'UserModel' },
-	tags: {type: [String], required: true},
-	rate: {type: Number, required: true},
-	experience: {type: Number, required: true},
+	tags: {type: [String]},
+	rate: {type: Number},
+	experience: {type: Number},
 	comments: String,
+	user: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "UserModel"
+	},
 });
 
 const SkillsModel = mongoose.model("SkillsModel", skillSchema);
