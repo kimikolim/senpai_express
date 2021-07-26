@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const { senpaiListValidate } = require('../middlewares/senpai_validate')
+const { SkillsModel } = require('../models/senpaiSkills')
 const { UserModel } = require('../models/user')
 
 module.exports = {
@@ -7,13 +8,14 @@ module.exports = {
     senpaiList: async (req, res) => {
         //validate req.params => mainCategory
         //validate req.query => subCategory, experience, rates, tags
-        let validatedSub = req.query.subCategory.split(',')
-        let validatedExperience = Number(req.query.experience)
-        let validatedRates = Number(req.query.rates)
-        let validatedTags = req.query.tags.split(',')
-        const query = {...req.query, ...req.params, subCategory: { $in: validatedSub}, experience: validatedExperience, rates: validatedRates, tags: { $in: validatedTags }}
-        console.log(query);
-        
+
+        // let validatedSub = req.query.subCategory.split(',');
+        // let validatedExperience = Number(req.query.experience)
+        // let validatedRates = Number(req.query.rates)
+        // let validatedTags = req.query.tags.split(',')
+        // const query = {...req.query, ...req.params, subCategory: { $in: validatedSub}, experience: validatedExperience, rates: validatedRates, tags: { $in: validatedTags }}
+        // console.log(query);
+
         // const validatedResult = senpaiListValidate.validate(query)
         // if(validatedResult.error) {
         //     return res.status(400).json(validatedResult.error)
@@ -48,22 +50,22 @@ module.exports = {
         //   console.log(filter);
 
 
-        SkillsModel.aggregate(
-            {
-                $match: query
+        // SkillsModel.aggregate(
+        //     {
+        //         $match: query
 
-            },
-            {
-                $group:
-                    {
-                        _id:'$user',
-                        numOfSkillMatches: {$sum:1},
+        //     },
+        //     {
+        //         $group:
+        //             {
+        //                 _id:'$user',
+        //                 numOfSkillMatches: {$sum:1},
 
-                    }
-            },
-            function(err, orders) {
-              res.json(orders);
-          });
+        //             }
+        //     },
+        //     function(err, orders) {
+        //       res.json(orders);
+        //   });
 
 
         //total count of filtered result
@@ -84,7 +86,28 @@ module.exports = {
         //     return res.json(error)
         // })
 
+        // console.log(req.params)
+        // console.log(req.query)
 
+        let filter = {}
+
+        if (req.params.mainCategory) {
+            filter.mainCategory = req.params.mainCategory
+        }
+        if (req.query.subCategory) {
+            filter.subCategory = req.query.subCategory
+        }
+        // console.log(filter);
+        SkillsModel.find(filter).populate('user')
+        .then (response => {
+            if(!response) {
+                return res.status(404).json({ message: "Senpai not found." })
+            }
+            return res.json(response)
+        })
+        .catch (error => {
+            return res.status(500).json(error)
+        })
     },
     //Senpai Profile page
     senpaiProfile: (req, res) => {
@@ -94,7 +117,7 @@ module.exports = {
         }
 
         //return senpai individual profile
-        UserModel.findOne({ _id: req.params.userID })
+        UserModel.findOne({ _id: req.params.userID }).populate('skills').select('-hash')
         .then (response => {
             if(!response) {
                 return res.status(404).json({ message: "Senpai not found." })
