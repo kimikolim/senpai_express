@@ -117,33 +117,55 @@ module.exports = {
 
     addSkill: (req, res) => {
         //validation senpai skills
-        const validatedResult = senpaiSkillValidate.validate(req.body)
-        if(validatedResult.error) {
-            return res.status(400).json({ message: validatedResult.error })
+
+        const errors = []
+
+        const validatedSkills = req.body.skillsData.map(element => {
+            const validatedResult = senpaiSkillValidate.validate(element)
+
+            if(validatedResult.error) {
+                console.log(validatedResult);
+                errors.push(validatedResult.error)
+                return {}
+            }
+
+            const validatedValue = validatedResult.value
+
+            let { tags } = element
+            let arrTags = _.split(tags, ',')
+
+            let createSkill = {
+                mainCategory: validatedValue.mainCategory,
+                subCategory: validatedValue.subCategory,
+                user: req.params.userID,
+                tags: arrTags,
+                rate: validatedValue.rate,
+                experience: validatedValue.experience,
+                comments: validatedValue.comments,
+            }
+            return createSkill
+        })
+
+        if(errors.length > 0) {
+            return res.status(400).json({ success: false, message: "Field validation failed.", errors: errors })
         }
 
-        const validatedValue = validatedResult.value
-
-        let { tags } = req.body
-        let arrTags = _.split(tags, ',')
-
-        let createSkill = {
-            mainCategory: validatedValue.mainCategory,
-            subCategory: validatedValue.subCategory,
-            user: req.params.userID,
-            tags: arrTags,
-            comments: validatedValue.comments
-        }
-
-        SkillsModel.create(createSkill)
+        SkillsModel.create(validatedSkills)
          .then (async (response) => {
+             console.log(response);
+
+            const responseArr = response.map(element => {
+                return element._id
+            })
+            console.log(responseArr);
              //validate if user exists
-             const updateResult = await UserModel.findOneAndUpdate(
-                { _id: response.user },
-                { $push : { skills : response._id }},
+             const updateResult = await UserModel.findOneAndUpdate (
+                { _id: req.params.userID },
+                { $push : { skills : {$each: responseArr} }},
                 { returnDocument: true }
-                )
-                console.log(updateResult);
+            )
+            console.log("mcspicy");
+            console.log(updateResult);
              return res.json(response)
          })
          .catch (err => {

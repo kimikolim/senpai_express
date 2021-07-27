@@ -95,10 +95,11 @@ module.exports = {
             filter.mainCategory = req.params.mainCategory
         }
         if (req.query.subCategory) {
-            filter.subCategory = req.query.subCategory
+            filter.subCategory = {$in: req.query.subCategory.split(',')}
         }
+
         // console.log(filter);
-        SkillsModel.find(filter).populate('user')
+        SkillsModel.find(filter).populate('user').populate('skills')
         .then (response => {
             if(!response) {
                 return res.status(404).json({ message: "Senpai not found." })
