@@ -49,7 +49,7 @@ module.exports = {
         if (!user) {
             return res.status(404).json({ message: "Account does not exist." })
         }
-        console.log(req.body);
+        // console.log(req.body);
         //Update user profile eg. gender and age
         let { name, email, mobile, gender, age } = req.body
         try {
@@ -124,7 +124,7 @@ module.exports = {
             const validatedResult = senpaiSkillValidate.validate(element)
 
             if(validatedResult.error) {
-                console.log(validatedResult);
+                // console.log(validatedResult);
                 errors.push(validatedResult.error)
                 return {}
             }
@@ -152,20 +152,20 @@ module.exports = {
 
         SkillsModel.create(validatedSkills)
          .then (async (response) => {
-             console.log(response);
+            //  console.log(response);
 
             const responseArr = response.map(element => {
                 return element._id
             })
-            console.log(responseArr);
+            // console.log(responseArr);
              //validate if user exists
              const updateResult = await UserModel.findOneAndUpdate (
                 { _id: req.params.userID },
                 { $push : { skills : {$each: responseArr} }},
                 { returnDocument: true }
             )
-            console.log("mcspicy");
-            console.log(updateResult);
+            // console.log("mcspicy");
+            // console.log(updateResult);
              return res.json(response)
          })
          .catch (err => {
@@ -177,58 +177,132 @@ module.exports = {
     },
 
     editSkill: async (req, res) => {
-           //validate valid mongo objectID
-           if (!mongoose.Types.ObjectId.isValid(req.params.userID)) {
-            return res.status(400).json({ message: "Invalid userID." })
-        }
-        //validate user update details - AGE EMAIL PHONE NUMBER ETC?
-        //How to append more fields into existing data
-        const validatedResult = senpaiSkillValidate.validate(req.body)
-        if (validatedResult.error) {
-            return res.status(400).json(validatedResult.error)
+            //    validate valid mongo userID
+        if (!mongoose.Types.ObjectId.isValid(req.params.userID)) {
+                return res.status(400).json({ message: "Invalid userID." })
         }
 
-        const validatedValue = validatedResult.value
-
-        let user = null
-        //Check User account exists
+        let userAccount = null
+        //Check User with skills exists
         try {
             user = await SkillsModel.find({ user: req.params.userID })
         } catch (error) {
             return res.status(500).json(error)
         }
-        if (!user) {
-            return res.status(404).json({ message: "Account does not exist." })
+        if (!userAccount) {
+            return res.status(404).json({ message: "No skills found." })
+        }
+        //validation senpai skills
+        const validatedResult = senpaiSkillValidate.validate(req.body)
+        if (validatedResult.error) {
+                return res.status(400).json(validatedResult.error)
         }
 
-        //Update user profile eg. gender and age
+
+        let { mainCategory, subCategory, tags, rate, experience, comments } = req.body
+        let arrTags = _.split(tags, ',')
         try {
-            await user.updateOne(validatedValue)
-        } catch (error) {
-            return res.status(500).json()
+            await SkillsModel.updateOne(
+                {
+                    _id: req.body.skillID
+                },
+                {
+                    $set: {
+                        mainCategory: mainCategory,
+                        subCategory: subCategory,
+                        tags: arrTags,
+                        rate: rate,
+                        experience: experience,
+                        comments: comments,
+                    }
+            }, { new: true, omitUndefined: true })
         }
-
+        catch (error) {
+            console.log(error)
+            return res.status(500).json();
+        }
         return res.json()
+
     },
 
     deleteSkill: async (req, res) => {
+        //frontend sends back req.params.skillID & userID
+
+        // const validatedSkillsID = req.body.skillID.map(skillsID => {
+        //     //    validate valid mongo objectID
+        //    if (!mongoose.Types.ObjectId.isValid(skillsID)) {
+        //     return res.status(400).json({ message: "Invalid skillID." })
+        //     }
+
+        //     return skillsID
+        // })
+        // //returns skillsID array from frontend
+        // console.log(validatedSkillsID)
+
+        //validate userID
+        if (!mongoose.Types.ObjectId.isValid(req.params.userID)) {
+            return res.status(400).json({ message: "Invalid userID." })
+        }
+        //validate skillID
+        if (!mongoose.Types.ObjectId.isValid(req.params.userID)) {
+            return res.status(400).json({ message: "Invalid skillID." })
+        }
+
+
         let user = null
+        let skillUser = null
         //Check User account exists
         try {
-            user = await SkillsModel.find({ user: req.params.userID })
+            skillUser = await SkillsModel.find({ user: req.params.userID })
+            user = await UserModel.find({ _id: req.params.userID })
+            // console.log(user);
         } catch (error) {
             return res.status(500).json(error)
         }
-        if (!user) {
-            return res.status(404).json({ message: "Account does not exist." })
+        if (!skillUser) {
+            return res.status(404).json({ message: "No skills exist." })
         }
-        //Delete account
+        // //Delete skill and update changes in UserModel skills array
         try {
-            await SkillsModel.deleteOne({ user: req.params.userID })
+        //     await SkillsModel.deleteOne({ _id: req.params.skillID })
+
+        //    await SkillsModel.find({ user: req.params.userID }).forEach( skillID => {
+        //         var findUser = UserModel.find({ _id : req.params.userID});
+                // console.log(skillID);
+                // if(!cursor.hasNext() === false) {
+                    //     UserModel.remove({skills : skillID._id});
+                    // }
+                // });
+                // console.log(user);
+                // console.log(skillUser);
+
+            //
+            const userSkillIDArray = user[0].skills
+            console.log(userSkillIDArray); //skillsID in the userModel array
+
+            const skillIDArray =  skillUser.map(skillID => {
+                return skillID._id
+            })
+            console.log(skillIDArray);//skillsID in the skillModel
+
+            // userSkillIDArray = userSkillIDArray.filter(id => {
+            //     return !skillIDArray.includes(id)
+            // })
+            // console.log(userSkillIDArray);
+
+            // skillIDArray = skillIDArray.filter(id => {
+            //     return !userSkillIDArray.includes(id)
+            // })
+            // console.log(skillIDArray);
+
+
         } catch (error) {
             return res.status(500).json(error)
         }
         return res.json()
+
+
     },
+
 
 }
