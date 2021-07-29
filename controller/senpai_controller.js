@@ -106,8 +106,8 @@ module.exports = {
             filter.rate = { $lt: rate }
         }
 
-        console.log(filter);
-        return
+        // console.log(filter);
+        // return
         SkillsModel.find(filter).populate('user').populate('skills')
         .then (response => {
             if(!response) {
