@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "SkillsModel"
     }],
-    // selectedFile: String, //convert image into string using base64
+    image: String, //cloudinary image URL
 },
 {
     timestamp:true,
