@@ -4,7 +4,7 @@ const senpaiController = require('../controller/senpai_controller')
 
 //Find senpais in the 4 main categories
 router.get('/catalog/:mainCategory', senpaiController.senpaiList) //req.params.category
-//Individial Senpai profiles
+//Individial user profiles
 router.get('/profile/:userID', senpaiController.senpaiProfile)
 
 

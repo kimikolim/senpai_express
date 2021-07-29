@@ -97,8 +97,17 @@ module.exports = {
         if (req.query.subCategory) {
             filter.subCategory = {$in: req.query.subCategory.split(',')}
         }
+        if (req.query.experience) {
+            let experience = parseInt(req.query.experience)
+            filter.experience = experience
+        }
+        if (req.query.rate) {
+            let rate = parseInt(req.query.rate)
+            filter.rate = { $lt: rate }
+        }
 
-        // console.log(filter);
+        console.log(filter);
+        // return
         SkillsModel.find(filter).populate('user').populate('skills')
         .then (response => {
             if(!response) {
