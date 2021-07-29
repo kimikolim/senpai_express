@@ -76,6 +76,12 @@ module.exports = {
     },
 
     deleteAccount: async (req, res) => {
+        //validate valid mongo user objectID
+        if (!mongoose.Types.ObjectId.isValid(req.params.userID)) {
+            return res.status(400).json({ message: "Invalid userID." })
+        }
+
+
         let user = null
         //Check User account exists
         try {
@@ -185,7 +191,7 @@ module.exports = {
         let userAccount = null
         //Check User with skills exists
         try {
-            user = await SkillsModel.find({ user: req.params.userID })
+            userAccount = await SkillsModel.find({ user: req.params.userID })
         } catch (error) {
             return res.status(500).json(error)
         }
@@ -197,71 +203,64 @@ module.exports = {
         if (validatedResult.error) {
                 return res.status(400).json(validatedResult.error)
         }
-
-
+        // console.log(req.params);
+        console.log(req.body);
+        // return
         let { mainCategory, subCategory, tags, rate, experience, comments } = req.body
         let arrTags = _.split(tags, ',')
         try {
             await SkillsModel.updateOne(
                 {
-                    _id: req.body.skillID
+                    _id: req.params.skillID
                 },
                 {
                     $set: {
                         mainCategory: mainCategory,
                         subCategory: subCategory,
                         tags: arrTags,
-                        rate: rate,
-                        experience: experience,
+                        rate: Number(rate),
+                        experience: Number(experience),
                         comments: comments,
                     }
             }, { new: true, omitUndefined: true })
+
         }
         catch (error) {
             console.log(error)
             return res.status(500).json();
         }
-        return res.json()
+        return res.json({ success: true })
 
     },
 
     deleteSkill: async (req, res) => {
         //frontend sends back req.params.skillID & userID
 
-        // const validatedSkillsID = req.body.skillID.map(skillsID => {
-        //     //    validate valid mongo objectID
-        //    if (!mongoose.Types.ObjectId.isValid(skillsID)) {
-        //     return res.status(400).json({ message: "Invalid skillID." })
-        //     }
-
-        //     return skillsID
-        // })
-        // //returns skillsID array from frontend
-        // console.log(validatedSkillsID)
 
         //validate userID
         if (!mongoose.Types.ObjectId.isValid(req.params.userID)) {
             return res.status(400).json({ message: "Invalid userID." })
         }
         //validate skillID
-        if (!mongoose.Types.ObjectId.isValid(req.params.userID)) {
+        if (!mongoose.Types.ObjectId.isValid(req.params.skillID)) {
             return res.status(400).json({ message: "Invalid skillID." })
         }
 
+        console.log(req.params);
 
-        let user = null
+        //Check if skill exists
         let skillUser = null
-        //Check User account exists
         try {
-            skillUser = await SkillsModel.find({ user: req.params.userID })
-            user = await UserModel.find({ _id: req.params.userID })
+            skillUser = await SkillsModel.find({ _id: req.params.skillID })
             // console.log(user);
         } catch (error) {
             return res.status(500).json(error)
         }
         if (!skillUser) {
-            return res.status(404).json({ message: "No skills exist." })
+            return res.status(404).json({ message: "Error - no skill found." })
         }
+
+
         // //Delete skill and update changes in UserModel skills array
         try {
         //     await SkillsModel.deleteOne({ _id: req.params.skillID })
@@ -277,13 +276,13 @@ module.exports = {
                 // console.log(skillUser);
 
             //
-            const userSkillIDArray = user[0].skills
-            console.log(userSkillIDArray); //skillsID in the userModel array
+            // const userSkillIDArray = user[0].skills
+            // console.log(userSkillIDArray); //skillsID in the userModel array
 
-            const skillIDArray =  skillUser.map(skillID => {
-                return skillID._id
-            })
-            console.log(skillIDArray);//skillsID in the skillModel
+            // const skillIDArray =  skillUser.map(skillID => {
+            //     return skillID._id
+            // })
+            // console.log(skillIDArray);//skillsID in the skillModel
 
             // userSkillIDArray = userSkillIDArray.filter(id => {
             //     return !skillIDArray.includes(id)
@@ -294,12 +293,18 @@ module.exports = {
             //     return !userSkillIDArray.includes(id)
             // })
             // console.log(skillIDArray);
+            await SkillsModel.deleteOne({ _id: req.params.skillID })
 
+            // await UserModel.findOneAndupdate(
+            //     { _id: req.params.userID },
+            //     { $pull: { skills: req.params.skillID }},
+            //     { returnDocument: true }
+            // )
 
         } catch (error) {
             return res.status(500).json(error)
         }
-        return res.json()
+        return res.json({ success: true })
 
 
     },
