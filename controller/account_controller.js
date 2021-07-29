@@ -50,21 +50,33 @@ module.exports = {
             return res.status(404).json({ message: "Account does not exist." })
         }
         // console.log(req.body);
+        // console.log(req.file);
+
+
+
         //Update user profile eg. gender and age
         let { name, email, mobile, gender, age } = req.body
+
+        let updateDetails = {
+            name: name,
+            email: email,
+            mobile: mobile,
+            gender: gender,
+            age: age,
+        }
+
+        // check if there is a file upload
+        if (req.file) {
+            updateDetails.image = req.file.path
+        }
         try {
             await UserModel.updateOne(
                 {
                     _id: req.params.userID
                 },
                 {
-                    $set: {
-                        name: name,
-                        email: email,
-                        mobile: mobile,
-                        gender: gender,
-                        age: age,
-                    }
+                    $set: updateDetails
+
                 }, { new: true, omitUndefined: true })
         } catch (error) {
             console.log(error);
@@ -267,13 +279,13 @@ module.exports = {
 
         //    await SkillsModel.find({ user: req.params.userID }).forEach( skillID => {
         //         var findUser = UserModel.find({ _id : req.params.userID});
-                // console.log(skillID);
-                // if(!cursor.hasNext() === false) {
-                    //     UserModel.remove({skills : skillID._id});
-                    // }
-                // });
-                // console.log(user);
-                // console.log(skillUser);
+        //         console.log(skillID);
+        //         if(!cursor.hasNext() === false) {
+        //                 UserModel.remove({skills : skillID._id});
+        //             }
+        //         });
+        //         console.log(user);
+        //         console.log(skillUser);
 
             //
             // const userSkillIDArray = user[0].skills
@@ -295,11 +307,11 @@ module.exports = {
             // console.log(skillIDArray);
             await SkillsModel.deleteOne({ _id: req.params.skillID })
 
-            // await UserModel.findOneAndupdate(
-            //     { _id: req.params.userID },
-            //     { $pull: { skills: req.params.skillID }},
-            //     { returnDocument: true }
-            // )
+            await UserModel.findOneAndUpdate(
+                { _id: req.params.userID },
+                { $pull: { skills: req.params.skillID }},
+                { returnDocument: true }
+            )
 
         } catch (error) {
             return res.status(500).json(error)
