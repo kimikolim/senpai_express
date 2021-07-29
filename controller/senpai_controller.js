@@ -107,7 +107,7 @@ module.exports = {
         }
 
         console.log(filter);
-        // return
+        return
         SkillsModel.find(filter).populate('user').populate('skills')
         .then (response => {
             if(!response) {

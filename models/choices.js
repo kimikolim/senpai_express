@@ -12,7 +12,7 @@ const fitnessSub = ['gym', 'yoga', 'sports']
 //Academic => language, computer science, school subjects
 const academicSub = ['languages', 'computer science', 'school subjects']
 //Arts => instruments, sing/dance, design & crafts
-const artSub = ['instruments', 'sing/dance', 'design & crafts']
+const artSub = ['instruments', 'sing/dance', 'design and crafts']
 //Cook => cuisine, baking, mixology
 const cookSub = ['cuisine', 'baking', 'mixology']
 
