@@ -35,35 +35,37 @@ CLOUDINARY_URL=<your input>
 
 &nbsp;
 
-![Home Page](http://github.com/kimikolim/senpai_express/blob/master/uploads/Homepage.png)
+### Home Page
+
+![Home Page](https://github.com/kimikolim/senpai_express/blob/master/uploads/Homepage.png?raw=true)
 
 &nbsp;
-
-![Main Category Page](http://https://github.com/kimikolim/senpai_express/blob/master/uploads/MainCategory.png)
-
-&nbsp;
-
-![Senpai List Page](http://https://github.com/kimikolim/senpai_express/blob/master/uploads/senpaiListPage.png)
+### Main Category Page
+![Main Category Page](https://github.com/kimikolim/senpai_express/blob/master/uploads/MainCategory.png?raw=true)
 
 &nbsp;
-
-![Register Page](http://https://github.com/kimikolim/senpai_express/blob/master/uploads/RegisterPage.png)
-
-&nbsp;
-
-![Login Page](http://https://github.com/kimikolim/senpai_express/blob/master/uploads/LoginPage.png)
+### Senpai List Page
+![Senpai List Page](https://github.com/kimikolim/senpai_express/blob/master/uploads/senpaiListPage.png?raw=true)
 
 &nbsp;
-
-![Edit Profile Page](http://https://github.com/kimikolim/senpai_express/blob/master/uploads/EditProfilePage.png)
-
-&nbsp;
-
-![Create Skill Page](http://https://github.com/kimikolim/senpai_express/blob/master/uploads/CreateSkillsPage.png)
+### Register Page
+![Register Page](https://github.com/kimikolim/senpai_express/blob/master/uploads/RegisterPage.png?raw=true)
 
 &nbsp;
+### Login Page
+![Login Page](https://github.com/kimikolim/senpai_express/blob/master/uploads/LoginPage.png?raw=true)
 
-![Senpai Profile Page](http://https://github.com/kimikolim/senpai_express/blob/master/uploads/SenpaiProfilePage.png)
+&nbsp;
+### Edit Profile Page
+![Edit Profile Page](https://github.com/kimikolim/senpai_express/blob/master/uploads/EditProfilePage.png?raw=true)
+
+&nbsp;
+### Create Skill Page
+![Create Skill Page](https://github.com/kimikolim/senpai_express/blob/master/uploads/CreateSkillsPage.png?raw=true)
+
+&nbsp;
+### Senpai Profile Page
+![Senpai Profile Page](https://github.com/kimikolim/senpai_express/blob/master/uploads/SenpaiProfilePage.png?raw=true)
 
 &nbsp;
 
