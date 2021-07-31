@@ -49,8 +49,9 @@ module.exports = {
         if (!user) {
             return res.status(404).json({ message: "Account does not exist." })
         }
-        // console.log(req.body);
-        // console.log(req.file);
+
+        console.log(req.body);
+        console.log(req.file);
 
 
 
@@ -192,9 +193,11 @@ module.exports = {
          })
 
 
-    },
+        },
 
-    editSkill: async (req, res) => {
+        editSkill: async (req, res) => {
+        console.log(req.body);
+        console.log(req.params);
             //    validate valid mongo userID
         if (!mongoose.Types.ObjectId.isValid(req.params.userID)) {
                 return res.status(400).json({ message: "Invalid userID." })
@@ -216,7 +219,6 @@ module.exports = {
                 return res.status(400).json(validatedResult.error)
         }
         // console.log(req.params);
-        console.log(req.body);
         // return
         let { mainCategory, subCategory, tags, rate, experience, comments } = req.body
         let arrTags = _.split(tags, ',')
