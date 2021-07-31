@@ -64,8 +64,14 @@ CLOUDINARY_URL=<your input>
 ![Create Skill Page](https://github.com/kimikolim/senpai_express/blob/master/uploads/CreateSkillsPage.png?raw=true)
 
 &nbsp;
+
 ### Senpai Profile Page
 ![Senpai Profile Page](https://github.com/kimikolim/senpai_express/blob/master/uploads/SenpaiProfilePage.png?raw=true)
+
+&nbsp;
+
+### Error Page
+![Error Page](https://github.com/kimikolim/senpai_express/blob/master/uploads/SenpaiProfilePage.png?raw=true)
 
 &nbsp;
 
