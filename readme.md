@@ -71,7 +71,7 @@ CLOUDINARY_URL=<your input>
 &nbsp;
 
 ### Error Page
-![Error Page](https://github.com/kimikolim/senpai_express/blob/master/uploads/SenpaiProfilePage.png?raw=true)
+![Error Page](https://github.com/kimikolim/senpai_express/blob/master/uploads/ErrorPage.png?raw=true)
 
 &nbsp;
 
