@@ -35,11 +35,41 @@ CLOUDINARY_URL=<your input>
 
 &nbsp;
 
-![alt text](http://url/to/img.png)
+### Home Page
+
+![Home Page](https://github.com/kimikolim/senpai_express/blob/master/uploads/Homepage.png?raw=true)
+
+&nbsp;
+### Main Category Page
+![Main Category Page](https://github.com/kimikolim/senpai_express/blob/master/uploads/MainCategory.png?raw=true)
+
+&nbsp;
+### Senpai List Page
+![Senpai List Page](https://github.com/kimikolim/senpai_express/blob/master/uploads/senpaiListPage.png?raw=true)
+
+&nbsp;
+### Register Page
+![Register Page](https://github.com/kimikolim/senpai_express/blob/master/uploads/RegisterPage.png?raw=true)
+
+&nbsp;
+### Login Page
+![Login Page](https://github.com/kimikolim/senpai_express/blob/master/uploads/LoginPage.png?raw=true)
+
+&nbsp;
+### Edit Profile Page
+![Edit Profile Page](https://github.com/kimikolim/senpai_express/blob/master/uploads/EditProfilePage.png?raw=true)
+
+&nbsp;
+### Create Skill Page
+![Create Skill Page](https://github.com/kimikolim/senpai_express/blob/master/uploads/CreateSkillsPage.png?raw=true)
+
+&nbsp;
+### Senpai Profile Page
+![Senpai Profile Page](https://github.com/kimikolim/senpai_express/blob/master/uploads/SenpaiProfilePage.png?raw=true)
 
 &nbsp;
 
-## FrontEnd (REACT)
+## Frontend (REACT)
 1. Bulma CSS
 1. React Class components
 1. Cloudinary
@@ -74,8 +104,14 @@ cloudinary | Cloudinary NPM for node.js integration
 1. Futher Validations
 1. JWT authentication
 
+&nbsp;
+
+## &#x1F4D9; Challenges faced
+1. Backend Data Architecture
+1. Relational Models
+1. Nested Components states and props management
 
 &nbsp;
 
-## Warning
+## &#x1F534; Warning
 This application is a work in progress and the early stages of development.
